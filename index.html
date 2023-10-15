@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Family Tree</title>
+    <style>
+        body 
+        {
+            background-color: black !important;
+            color: green;
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            margin: 0;
+        }
+
+        button 
+        {
+            background-color: green;
+            color: black;
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease-out;
+            border-style: solid;
+            border-color: green;
+            border-width: 1px;
+        }
+
+        #fetchedData 
+        {
+            margin-top: 20px;
+        }
+
+        button:hover 
+        {
+            background-color: black;
+            color: green;
+            
+        }
+    </style>
+</head>
+<body>
+
+<h1>Pet Family Tree</h1>
+
+<button onclick="fetchData()">Fetch All Animals</button>
+<button onclick="fetchMaleAnimals()">Fetch Male Animals</button>
+<button onclick="fetchFemaleAnimals()">Fetch Female Animals</button>
+
+<div id="fetchedData">
+    <!-- Fetched data will be displayed here -->
+</div>
+
+<script>
+    async function fetchData() 
+    {
+        try 
+        {
+            const response = await fetch('http://localhost:3000/api/all-animals');
+            const data = await response.json();
+            displayData(data);
+        } 
+        catch (error) 
+        {
+            console.error('Error fetching data:', error);
+            // Display an error message on the webpage if needed
+        }
+    }
+
+    async function fetchMaleAnimals() 
+    {
+        try 
+        {
+            const response = await fetch('http://localhost:3000/api/male-animals');
+            const data = await response.json();
+            displayData(data);
+        } 
+        catch (error) 
+        {
+            console.error('Error fetching male animals:', error);
+            // Display an error message on the webpage if needed
+        }
+    }
+
+    async function fetchFemaleAnimals() 
+    {
+        try 
+        {
+            const response = await fetch('http://localhost:3000/api/female-animals');
+            const data = await response.json();
+            displayData(data);
+        } 
+        catch (error) 
+        {
+            console.error('Error fetching female animals:', error);
+            // Display an error message on the webpage if needed
+        }
+    }
+
+    function displayData(data) 
+    {
+        const fetchedDataElement = document.getElementById('fetchedData');
+        fetchedDataElement.innerHTML = ''; // Clear previous data
+
+        // Display data
+        data.forEach(animal => 
+        {
+            const animalElement = document.createElement('div');
+            animalElement.innerText = `${animal.Name} (${animal.Species}, ${animal.Color}, ${animal.Gender}, Age: ${animal.Age})`;
+            fetchedDataElement.appendChild(animalElement);
+        });
+    }
+</script>
+
+</body>
+</html>
